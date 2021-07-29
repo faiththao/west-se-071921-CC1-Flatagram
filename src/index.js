@@ -1,6 +1,7 @@
 fetch('http://localhost:3000/images/1')
 .then(res => res.json())
 .then(pic => imageUploadData(pic))
+const addComments = document.querySelector('ul#fg-comments.comments')
 
 function imageUploadData(pic) {
     const imageCard = document.getElementById('fg-image');
@@ -9,23 +10,20 @@ function imageUploadData(pic) {
     const picTitle = document.getElementById('fg-title');
     picTitle.innerHTML = pic.title
 
-    const addComments = document.querySelector('ul#fg-comments.comments li')
+    
     addComments.innerHTML = `<li> ${pic.comments[0].content} </li>
     <li> ${pic.comments[1].content} </li>
     <li> ${pic.comments[2].content} </li>`
 }
 
-function commentForm() {
-    document.getElementsByTagName('button').addEventListener('submit', (e) => {
-        e.preventDefault();
-        buildComments(e.target.previousElementSibling)
-    })
-}
-
-function buildComments(com) {
+form = document.getElementById('fg-comment-form')
+form.addEventListener('submit', buildComments);
+function buildComments(e) {
+    e.preventDefault();
     let li = document.createElement('li');
-    li.textContent = `${com}`;
-    document.getElementsById('fg-comments').appendChild(li);
+    li.textContent = e.target.comment.value;
+    addComments.append(li);
+    form.reset();
 }
 
 
